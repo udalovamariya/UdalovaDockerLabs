@@ -1,0 +1,23 @@
+version: "3"
+services:
+  web:
+    image: 127.0.0.1:5000/web
+    build: .
+    ports:
+      - "4000:4000"
+    environment:
+      - ID={{.Task.Slot}}
+      - PORT=4000
+    depends_on:
+      - redis
+    deploy:
+      replicas: 2
+  redis:
+    image: "redis"
+    volumes:
+      - db:/data
+    ports:
+      - "6379:6379"
+volumes:
+  db:
+    driver: local
